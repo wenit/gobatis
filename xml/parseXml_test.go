@@ -4,10 +4,7 @@ import (
 	"testing"
 	"fmt"
 	"io/ioutil"
-	//"log"
 	"path/filepath"
-	//"os"
-	//"strings"
 )
 
 func TestParseXmlFile(t *testing.T) {
@@ -30,16 +27,8 @@ func TestParseDir(t *testing.T) {
 	var fileDir = "D:/conf/project/bscz-mbank"
 	mappers:=make(map[string]Mapper)
 
-	//_ ,ok := mappers["a"]
-	//fmt.Println(ok)
-
 	ParseDir(fileDir,&mappers)
-
 	fmt.Println(mappers)
-
-
-
-
 }
 
 func TestName(t *testing.T) {
