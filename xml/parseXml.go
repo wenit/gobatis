@@ -41,7 +41,6 @@ func ParseDir(dirName string, mappers *map[string]Mapper) {
 		if file.IsDir() {
 			ParseDir(fileName, mappers)
 		} else {
-
 			ext := filepath.Ext(fileName)
 			if ext == ".xml" {
 				var mapper Mapper

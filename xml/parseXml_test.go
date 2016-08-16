@@ -35,31 +35,11 @@ func TestParseDir(t *testing.T) {
 
 	ParseDir(fileDir,&mappers)
 
-	//fmt.Println(mappers)
+	fmt.Println(mappers)
 
-	//fmt.Println()
-	//
-	//files, err := ioutil.ReadDir(fileDir)
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//for _, file := range files {
-	//	//fileName:=file
-	//	fmt.Println()
-	//	fmt.Println(file)
-	//
-	//}
-	//
-	//filepath.Walk(fileDir, func(root string, info os.FileInfo,err error) error{
-	//	if ( info == nil ) {
-	//		return err
-	//	}
-	//	if info.IsDir() {
-	//		return nil
-	//	}
-	//	fmt.Println(root)
-	//	return nil
-	//})
+
+
+
 }
 
 func TestName(t *testing.T) {
