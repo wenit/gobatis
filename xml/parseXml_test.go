@@ -24,11 +24,17 @@ func TestParseXmlString(t *testing.T) {
 }
 
 func TestParseDir(t *testing.T) {
-	var fileDir = "D:/conf/project/bscz-mbank"
-	mappers:=make(map[string]Mapper)
+	var fileDir = "D:/conf/project/bscz-mbank/mybatis/oracle/mapping/"
+	//mappers:=make(map[string]Mapper)
 
-	ParseDir(fileDir,&mappers)
-	fmt.Println(mappers)
+	nameSpaceCache := NewNamespaceCache()
+
+
+	ParseDir(fileDir, nameSpaceCache)
+	ns:=nameSpaceCache.Namespaces["mobileLogin"]
+	st:=ns.Statements["queryNetAcctList"]
+	fmt.Println(st.Sql,st.Mapper)
+	fmt.Println(NSCache)
 }
 
 func TestName(t *testing.T) {

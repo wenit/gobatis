@@ -1,8 +1,12 @@
 package xml
 
+
+
 type Statement struct {
-	Id string `xml:"id,attr"`
+	Id            string `xml:"id,attr"`
 	ParameterType string `xml:"parameterType,attr"`
-	ResultType string `xml:"resultType,attr"`
-	Sql string `xml:",chardata"`
+	ResultType    string `xml:"resultType,attr"`
+	Sql           string `xml:",chardata"`
+	Type          string
+	Mapper        *Mapper
 }
