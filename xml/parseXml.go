@@ -3,30 +3,38 @@ package xml
 import (
 	"encoding/xml"
 	"io/ioutil"
-	"log"
 	"path/filepath"
-	"cn/wenit/gobatis/consts"
+	"github.com/wenit/util/log"
+	"github.com/wenit/gobatis/consts"
 )
+
+var logger *log.Logger
+
+func init() {
+	logger=log.New()
+
+}
+
 
 func ParseXmlString(content string, mapper *Mapper) {
 	err := xml.Unmarshal([]byte(content), mapper)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
 	}
 }
 
 func ParseXmlFile(fileName string, mapper *Mapper) {
 	content, err := ioutil.ReadFile(fileName)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
 	}
 	err = xml.Unmarshal(content, mapper)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
 	}
 	mapper.FileName = fileName
 	if mapper.Namespace != "" {
-		log.Println("loaded xml:", fileName)
+		logger.Info("loaded xml:", fileName)
 	}
 
 }
@@ -34,7 +42,7 @@ func ParseXmlFile(fileName string, mapper *Mapper) {
 func ParseDir(dirName string, nc *NamespaceCache) {
 	files, err := ioutil.ReadDir(dirName)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
 	}
 	for _, file := range files {
 		fileName := filepath.Clean(dirName) + string(filepath.Separator) + file.Name()
@@ -43,9 +51,11 @@ func ParseDir(dirName string, nc *NamespaceCache) {
 		} else {
 			ext := filepath.Ext(fileName)
 			if ext == ".xml" {
-				log.Println("mybaits mapper file :",fileName);
+				//logger.Info("mybaits mapper file :",fileName);
 				var mapper Mapper
 				ParseXmlFile(fileName, &mapper)
+
+				logger.Debug("Test ",mapper)
 				nsId := mapper.Namespace
 				if nsId == "" {
 					nsId=consts.DEFAULT_NAMESPACE
@@ -67,30 +77,35 @@ func ParseDir(dirName string, nc *NamespaceCache) {
 }
 
 func putStatement(ns *Namespace, mapper *Mapper) {
+	logger.Debug("Test1 ",*mapper)
 	for _, s := range mapper.Selects {
-		put(ns,&s,mapper)
+		logger.Debug("Test1 ",s,&(s.Sql))
+		put(ns,s,mapper)
 	}
 	for _, s := range mapper.Inserts {
-		put(ns,&s,mapper)
+		put(ns,s,mapper)
 	}
 	for _, s := range mapper.Updates {
-		put(ns,&s,mapper)
+		put(ns,s,mapper)
 	}
 	for _, s := range mapper.Deletes {
-		put(ns,&s,mapper)
+		put(ns,s,mapper)
 	}
 }
 
-func put(ns *Namespace,s *Statement, mapper *Mapper)  {
+func put(ns *Namespace,s Statement, mapper *Mapper)  {
 	v, ok := ns.Statements[s.Id]
 	if ok {
-		log.Printf("this namespace %s ,has statement id %s in file %s", ns.Id, s.Id, v.Mapper.FileName)
+		logger.Error("this namespace %s ,has statement id %s in file %s", ns.Id, s.Id, v.Mapper.FileName)
 	} else {
 		if(ns.Statements == nil){
-			ns.Statements= make(map[string]*Statement)
+			ns.Statements= make(map[string]Statement)
 		}
+		//logger.Debug(s.Id,&s.Sql,s.Sql)
 		ns.Statements[s.Id] = s
-		s.Mapper = mapper
+		//s.Mapper = mapper
+		logger.Debug("%p\n",s)
+		logger.Debug(ns.Statements)
 	}
 }
 

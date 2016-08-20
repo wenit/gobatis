@@ -7,6 +7,10 @@ type NamespaceCache struct {
 	Namespaces map[string]*Namespace
 }
 
+func init() {
+
+}
+
 func NewNamespaceCache() *NamespaceCache {
 	NSCache=&NamespaceCache{
 		Namespaces:make(map[string]*Namespace),

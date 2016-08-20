@@ -1,0 +1,33 @@
+{
+  "Namespaces": {
+    "redis": {
+      "Id": "redis",
+      "Statements": {
+        "queryRedis": {
+          "Id": "updateRedis",
+          "ParameterType": "map",
+          "ResultType": "",
+          "Sql": "\n\t\tupdate redis_info\n\t\tset name=#{name}\n\t\twhere id=#{id}\n\t",
+          "Type": "",
+          "Mapper": null
+        },
+        "queryRedis2": {
+          "Id": "updateRedis",
+          "ParameterType": "map",
+          "ResultType": "",
+          "Sql": "\n\t\tupdate redis_info\n\t\tset name=#{name}\n\t\twhere id=#{id}\n\t",
+          "Type": "",
+          "Mapper": null
+        },
+        "updateRedis": {
+          "Id": "updateRedis",
+          "ParameterType": "map",
+          "ResultType": "",
+          "Sql": "\n\t\tupdate redis_info\n\t\tset name=#{name}\n\t\twhere id=#{id}\n\t",
+          "Type": "",
+          "Mapper": null
+        }
+      }
+    }
+  }
+}
