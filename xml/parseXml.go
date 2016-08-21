@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 	"io/ioutil"
 	"path/filepath"
-	"github.com/wenit/util/log"
+	"github.com/wenit/goutil/log"
 	"github.com/wenit/gobatis/consts"
 )
 
@@ -55,7 +55,6 @@ func ParseDir(dirName string, nc *NamespaceCache) {
 				var mapper Mapper
 				ParseXmlFile(fileName, &mapper)
 
-				logger.Debug("Test ",mapper)
 				nsId := mapper.Namespace
 				if nsId == "" {
 					nsId=consts.DEFAULT_NAMESPACE
@@ -77,35 +76,30 @@ func ParseDir(dirName string, nc *NamespaceCache) {
 }
 
 func putStatement(ns *Namespace, mapper *Mapper) {
-	logger.Debug("Test1 ",*mapper)
 	for _, s := range mapper.Selects {
-		logger.Debug("Test1 ",s,&(s.Sql))
-		put(ns,s,mapper)
+		put(ns,&s,mapper)
 	}
 	for _, s := range mapper.Inserts {
-		put(ns,s,mapper)
+		put(ns,&s,mapper)
 	}
 	for _, s := range mapper.Updates {
-		put(ns,s,mapper)
+		put(ns,&s,mapper)
 	}
 	for _, s := range mapper.Deletes {
-		put(ns,s,mapper)
+		put(ns,&s,mapper)
 	}
 }
 
-func put(ns *Namespace,s Statement, mapper *Mapper)  {
+func put(ns *Namespace,s *Statement, mapper *Mapper)  {
 	v, ok := ns.Statements[s.Id]
 	if ok {
 		logger.Error("this namespace %s ,has statement id %s in file %s", ns.Id, s.Id, v.Mapper.FileName)
 	} else {
 		if(ns.Statements == nil){
-			ns.Statements= make(map[string]Statement)
+			ns.Statements= make(map[string]Statement,0)
 		}
-		//logger.Debug(s.Id,&s.Sql,s.Sql)
-		ns.Statements[s.Id] = s
-		//s.Mapper = mapper
-		logger.Debug("%p\n",s)
-		logger.Debug(ns.Statements)
+		ns.Statements[s.Id] = *s
+		s.Mapper = mapper
 	}
 }
 
